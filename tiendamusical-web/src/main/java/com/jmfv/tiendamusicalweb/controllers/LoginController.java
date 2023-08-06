@@ -3,6 +3,7 @@
  */
 package com.jmfv.tiendamusicalweb.controllers;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 
 import com.jmfv.tiendamusicalentities.entities.Persona;
 import com.jmfv.tiendamusicalservices.service.LoginService;
+import com.jmfv.tiendamusicalweb.session.SessionBean;
 import com.jmfv.tiendamusicalweb.utils.CommonUtils;
 
 /**
@@ -36,6 +38,12 @@ public class LoginController implements Serializable{
 	@ManagedProperty("#{loginServiceImpl}")
 	private LoginService loginServiceImpl;
 	
+	/**
+	 * Propiedad de la logica de negocio inyectada con JSF y Spring.
+	 */
+	@ManagedProperty("#{sessionBean}")
+	private SessionBean sessionBean;
+	
 	@PostConstruct
 	public void init() {
 		System.out.println("Inicializando login...");
@@ -49,7 +57,14 @@ public class LoginController implements Serializable{
 		Persona personaConsultada = this.loginServiceImpl.consultarUsuarioLogin(this.usuario, this.password);
 		
 		if (personaConsultada != null) {
-			CommonUtils.mostrarMensaje(FacesMessage.SEVERITY_INFO, "¡EXITOSO!", "Bienvenido al home :)");
+			try {
+				this.sessionBean.setPersona(personaConsultada);
+				
+				CommonUtils.redireccionar("/pages/commons/dashboard.xhtml");
+			} catch (IOException e) {
+				CommonUtils.mostrarMensaje(FacesMessage.SEVERITY_FATAL, "¡ERROR!", "Formato incorrecto en el cual se ingresa a la pantalla deseada");
+				e.printStackTrace();
+			}
 		} else {
 			CommonUtils.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "¡UPS!", "El usuario y/o contraseña son incorrectos");			
 		}
@@ -92,5 +107,19 @@ public class LoginController implements Serializable{
 	 */
 	public void setLoginServiceImpl(LoginService loginServiceImpl) {
 		this.loginServiceImpl = loginServiceImpl;
+	}
+
+	/**
+	 * @return the sessionBean
+	 */
+	public SessionBean getSessionBean() {
+		return sessionBean;
+	}
+
+	/**
+	 * @param sessionBean the sessionBean to set
+	 */
+	public void setSessionBean(SessionBean sessionBean) {
+		this.sessionBean = sessionBean;
 	}
 }

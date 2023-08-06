@@ -17,7 +17,7 @@ import com.jmfv.tiendamusicalentities.entities.Artista;
 public class ArtistaDAOImpl extends CommonDAO<Artista, ArtistaDAO> {
 
 	public List<ArtistaAlbumDTO> consultarArtistaAlbumsPorFiltro(String filtro) {
-		return this.repository.consultarArtistaAlbumsPorFiltro(filtro);
+		return this.repository.consultarArtistasAlbumsPorFiltro(filtro);
 	}
 }
 

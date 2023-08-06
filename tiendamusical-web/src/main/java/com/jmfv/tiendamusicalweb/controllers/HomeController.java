@@ -3,9 +3,11 @@
  */
 package com.jmfv.tiendamusicalweb.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -15,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.jmfv.tiendamusicalentities.dto.ArtistaAlbumDTO;
 import com.jmfv.tiendamusicalservices.service.HomeService;
+import com.jmfv.tiendamusicalweb.session.SessionBean;
+import com.jmfv.tiendamusicalweb.utils.CommonUtils;
 
 /**
  * @author jmfer
@@ -43,6 +47,12 @@ public class HomeController {
 	@ManagedProperty("#{homeServiceImpl}")
 	private HomeService homeServiceImpl;
 	
+	/**
+	 * Objeto que almacena informacion en sesion
+	 */
+	@ManagedProperty("#{sessionBean}")
+	private SessionBean sessionBean;
+	
 	@PostConstruct
 	public void init() {
 		LOGGER.info("INFOR");
@@ -62,6 +72,20 @@ public class HomeController {
 			this.artistaAlbumDTO.forEach(artistaAlbumDTO -> {
 				LOGGER.info("Artista: "+ artistaAlbumDTO.getArtista().getNombre());
 			});
+		}
+	}
+	
+	/**
+	 * Metodo que permite ver el detalle del album seleccionado por el cliente
+	 * @param artistaAlbumDTO
+	 */
+	public void verDetalleAlbum(ArtistaAlbumDTO artistaAlbumDTO) {
+		this.sessionBean.setArtistaAlbumDTO(artistaAlbumDTO);
+		try {
+			CommonUtils.redireccionar("/pages/cliente/detalle.xhtml");
+		} catch (IOException e) {
+			CommonUtils.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "¡UPS!", "Hubo un error de formato en la página a ingresar. Favor de contactar con soporte.");
+			e.printStackTrace();
 		}
 	}
 
@@ -105,5 +129,19 @@ public class HomeController {
 	 */
 	public void setHomeServiceImpl(HomeService homeServiceImpl) {
 		this.homeServiceImpl = homeServiceImpl;
+	}
+
+	/**
+	 * @return the sessionBean
+	 */
+	public SessionBean getSessionBean() {
+		return sessionBean;
+	}
+
+	/**
+	 * @param sessionBean the sessionBean to set
+	 */
+	public void setSessionBean(SessionBean sessionBean) {
+		this.sessionBean = sessionBean;
 	}
 }

@@ -5,6 +5,8 @@ package com.jmfv.tiendamusicalweb.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -12,6 +14,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.jmfv.tiendamusicalentities.entities.CarritoAlbum;
 import com.jmfv.tiendamusicalentities.entities.Persona;
 import com.jmfv.tiendamusicalservices.service.LoginService;
 import com.jmfv.tiendamusicalweb.session.SessionBean;
@@ -24,6 +30,12 @@ import com.jmfv.tiendamusicalweb.utils.CommonUtils;
 @ManagedBean
 @ViewScoped
 public class LoginController implements Serializable{
+	
+	/**
+	 * Objeto que permite mostrar los mensajes de LOG en la consola del servidor o en un archivo externo
+	 */
+	private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+	
 	/**
 	 * Usuario capturado por la persona.
 	 */
@@ -58,7 +70,14 @@ public class LoginController implements Serializable{
 		
 		if (personaConsultada != null) {
 			try {
-				this.sessionBean.setPersona(personaConsultada);
+				List<CarritoAlbum> carritoAlbumFiltrados = personaConsultada.getCarrito().getCarritosAlbum().stream().filter( ca -> 
+					ca.getEstatus().equals("PENDIENTE")).collect(Collectors.toList());
+				
+				personaConsultada.getCarrito().setCarritosAlbum(carritoAlbumFiltrados);
+				
+				LOGGER.info("Albums del carrito filtrados...");
+				
+				this.sessionBean.setPersona(personaConsultada);				
 				
 				CommonUtils.redireccionar("/pages/commons/dashboard.xhtml");
 			} catch (IOException e) {

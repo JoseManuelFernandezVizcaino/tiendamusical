@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>tiendamusical</artifactId>
-		<groupId>com.jmfv</groupId>
+		<groupId>com.jmfer</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
@@ -28,7 +28,7 @@
 
 		<dependency>
 			<artifactId>tiendamusical-entities</artifactId>
-			<groupId>com.jmfv</groupId>
+			<groupId>com.jmfer</groupId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -82,13 +82,13 @@
 			<version>${log4j-version}</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 			<version>${log4j-version}</version>
 		</dependency>
+
 
 	</dependencies>
 

@@ -3,6 +3,9 @@
  */
 package com.jmfer.tiendamusicalservices.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,7 @@ import com.jmfer.tiendamusicaldata.dao.CarritoAlbumDAO;
 import com.jmfer.tiendamusicalentities.dto.ArtistaAlbumDTO;
 import com.jmfer.tiendamusicalentities.entities.Carrito;
 import com.jmfer.tiendamusicalentities.entities.CarritoAlbum;
+import com.jmfer.tiendamusicalentities.entities.Factura;
 import com.jmfer.tiendamusicalservices.service.CarritoService;
 
 /**
@@ -61,6 +65,31 @@ public class CarritoServiceImpl implements CarritoService {
 		this.carritoAlbumDAO.save(carritoAlbum);
 		
 		return this.calcularTotal(carrito);
+	}
+
+	@Override
+	public boolean actualizarCarritoAlbum(List<CarritoAlbum> carritoAlbums, Factura factura) {
+		boolean actualizados = false;
+		
+		//Se cambia el estatus de los productos a PAGADO y se asigna la fecha de compra y la factura
+		for (CarritoAlbum carritoAlbum : carritoAlbums) {
+			carritoAlbum.setEstatus("PAGADO");
+			carritoAlbum.setFechaCompra(LocalDateTime.now());
+			carritoAlbum.setFactura(factura);
+		}
+		
+		Iterable<CarritoAlbum> carritosAcutalizados = this.carritoAlbumDAO.saveAll(carritoAlbums);
+		
+		carritosAcutalizados.forEach(ca -> {
+			ca.getAlbum();
+		});
+		
+		if (carritosAcutalizados != null) {
+			
+			actualizados = true;
+		}
+		
+		return actualizados;
 	}
 
 }

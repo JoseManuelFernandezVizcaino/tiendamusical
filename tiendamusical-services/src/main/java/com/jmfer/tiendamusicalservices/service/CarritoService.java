@@ -3,9 +3,12 @@
  */
 package com.jmfer.tiendamusicalservices.service;
 
+import java.util.List;
+
 import com.jmfer.tiendamusicalentities.dto.ArtistaAlbumDTO;
 import com.jmfer.tiendamusicalentities.entities.Carrito;
 import com.jmfer.tiendamusicalentities.entities.CarritoAlbum;
+import com.jmfer.tiendamusicalentities.entities.Factura;
 
 /**
  * @author jmfer
@@ -36,4 +39,12 @@ public interface CarritoService {
 	 * @param carrito {@link Carrito} objeto con el carrito de compras del usuario.
 	 */
 	float actualizarAlbumCantidad(CarritoAlbum carritoAlbum, Carrito carrito);
+	
+	/**
+	 * Metodo que permite actualizar los registros de los productos comprados por el cliente agregandolos la orden de compra
+	 * @param carritoAlbums
+	 * @param factura
+	 * @return
+	 */
+	boolean actualizarCarritoAlbum(List<CarritoAlbum> carritoAlbums, Factura factura);
 }

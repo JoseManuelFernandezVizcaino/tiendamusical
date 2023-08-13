@@ -16,6 +16,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.jmfer.tiendamusicalentities.dto.ArtistaAlbumDTO;
+import com.jmfer.tiendamusicalentities.entities.CarritoAlbum;
+import com.jmfer.tiendamusicalservices.service.CarritoService;
 import com.jmfer.tiendamusicalservices.service.HomeService;
 import com.jmfer.tiendamusicalweb.session.SessionBean;
 import com.jmfer.tiendamusicalweb.utils.CommonUtils;
@@ -45,6 +47,9 @@ public class HomeController {
 	 */
 	@ManagedProperty("#{homeServiceImpl}")
 	private HomeService homeServiceImpl;
+	
+	@ManagedProperty("#{carritoServiceImpl}")
+	private CarritoService carritoServiceImpl;
 	/**
 	 * Objeto que almacena informacion en sesion.
 	 */
@@ -88,6 +93,18 @@ public class HomeController {
 					+ "Favor de contactar con soporte.");
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Metodo que permite agregar un album en el carrito de compras
+	 * @param artistaAlbumDTO
+	 */
+	public void agregarAlbumCarrito(ArtistaAlbumDTO artistaAlbumDTO) {
+		LOGGER.info("Agregando album: " + artistaAlbumDTO.getAlbum());
+				
+		CarritoAlbum carritoAlbum = this.carritoServiceImpl.guardarAlbumsCarrito(artistaAlbumDTO, this.sessionBean.getPersona().getCarrito(), 1);
+		
+		this.sessionBean.getPersona().getCarrito().getCarritosAlbum().add(carritoAlbum);
 	}
 	
 	/**
@@ -137,5 +154,17 @@ public class HomeController {
 	 */
 	public void setSessionBean(SessionBean sessionBean) {
 		this.sessionBean = sessionBean;
+	}
+	/**
+	 * @return the carritoServiceImpl
+	 */
+	public CarritoService getCarritoServiceImpl() {
+		return carritoServiceImpl;
+	}
+	/**
+	 * @param carritoServiceImpl the carritoServiceImpl to set
+	 */
+	public void setCarritoServiceImpl(CarritoService carritoServiceImpl) {
+		this.carritoServiceImpl = carritoServiceImpl;
 	}
 }

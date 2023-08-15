@@ -72,13 +72,14 @@ public class LoginController implements Serializable{
 		
 		if (personaConsultada != null) {
 			try {
-				
-				List<CarritoAlbum> carritoAlbumFiltrados = personaConsultada.getCarrito().getCarritosAlbum().stream().filter( ca -> 
+				//Se filtran los albums consultados del carrito por estatus de PENDIENTE
+				if (personaConsultada.getRol().getIdRol() == 4) {
+					List<CarritoAlbum> carritoAlbumFiltrados = personaConsultada.getCarrito().getCarritosAlbum().stream().filter( ca -> 
 					ca.getEstatus().equals("PENDIENTE")).collect(Collectors.toList());
 				
-				personaConsultada.getCarrito().setCarritosAlbum(carritoAlbumFiltrados);
-				
-				LOGGER.info("Albums del carrito filtrados...");
+					personaConsultada.getCarrito().setCarritosAlbum(carritoAlbumFiltrados);
+					LOGGER.info("Albums del carrito filtrados...");
+				}	
 				
 				this.sessionBean.setPersona(personaConsultada);
 				

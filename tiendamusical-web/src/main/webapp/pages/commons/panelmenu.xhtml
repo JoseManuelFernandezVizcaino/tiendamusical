@@ -1,21 +1,27 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
- 	  xmlns:p="http://primefaces.org/ui"
- 	  xmlns:ui="http://java.sun.com/jsf/facelets">
-      
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	    <p:panelMenu style="width:100%">
 
-	        <p:submenu label="Mi Perfil" rendered="true" expanded="true">
-	            <p:menuitem value="Información General" icon="pi pi-user-edit" action="#{paginaController.redireccionarPagina('/pages/cliente/infopersonal.xhtml')}" immediate="true"/>
-	            <p:menuitem value="Mis compras" icon="pi pi-shopping-cart" action="#{paginaController.redireccionarPagina('/pages/cliente/miscompras.xhtml')}" immediate="true"/>
-	        </p:submenu>
+	<p:panelMenu style="width:100%">
 
-	        <p:submenu label="Administración" rendered="false">
-	            <p:menuitem value="Delete" ajax="false" icon="pi pi-times"/>
-	        </p:submenu>
+		<p:submenu label="Mi Perfil" rendered="true" expanded="true">
+			<p:menuitem value="Información General" icon="pi pi-user-edit"
+				action="#{paginaController.redireccionarPagina('/pages/cliente/infopersonal.xhtml')}"
+				immediate="true" rendered="#{sessionBean.persona.rol.idRol == 4}" />
+			<p:menuitem value="Mis compras" icon="pi pi-shopping-cart"
+				action="#{paginaController.redireccionarPagina('/pages/cliente/miscompras.xhtml')}"
+				immediate="true" rendered="#{sessionBean.persona.rol.idRol == 4}" />
+			<p:menuitem value="Albums" icon="pi pi-volume-up"
+				rendered="#{sessionBean.persona.rol.idRol == 3}"></p:menuitem>
+			<p:menuitem value="Artistas" icon="pi pi-users"
+				rendered="#{sessionBean.persona.rol.idRol == 3}"></p:menuitem>
+			<p:menuitem value="Perfiles" icon="pi pi-lock"
+				rendered="#{sessionBean.persona.rol.idRol == 3}"></p:menuitem>
+		</p:submenu>
 
-	    </p:panelMenu>
+	</p:panelMenu>
 
 </ui:composition>

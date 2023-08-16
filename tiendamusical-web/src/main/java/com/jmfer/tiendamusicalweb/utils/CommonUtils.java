@@ -3,12 +3,17 @@
  */
 package com.jmfer.tiendamusicalweb.utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.imageio.stream.FileCacheImageInputStream;
 
 /**
  * @author jmfer
@@ -34,5 +39,16 @@ public class CommonUtils {
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String contextPath = externalContext.getRequestContextPath();
 		externalContext.redirect(contextPath + url);
+	}
+	
+	/**
+	 * Metodo que permite guardar imagenes en un directorio
+	 * @param path
+	 * @param nombreArchivo
+	 * @param inputStream
+	 * @throws IOException
+	 */
+	public static void guardarImagen(String path, String nombreArchivo, InputStream inputStream) throws IOException {
+		Files.copy(inputStream, new File(path, nombreArchivo).toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 }

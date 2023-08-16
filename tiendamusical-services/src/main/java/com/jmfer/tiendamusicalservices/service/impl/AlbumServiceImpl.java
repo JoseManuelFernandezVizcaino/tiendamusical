@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.jmfer.tiendamusicaldata.dao.AlbumDAO;
 import com.jmfer.tiendamusicalentities.dto.AlbumTopTenDTO;
+import com.jmfer.tiendamusicalentities.entities.Album;
 import com.jmfer.tiendamusicalservices.service.AlbumService;
 
 /**
@@ -30,6 +31,13 @@ public class AlbumServiceImpl implements AlbumService {
 	public List<AlbumTopTenDTO> consultarAlbumsTopTen() {
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<AlbumTopTenDTO> page = this.albumDAO.consultarAlbumsTopTen(pageable);
+		return page.getContent();
+	}
+
+	@Override
+	public List<Album> consultarAlbums() {
+		Pageable pageable = PageRequest.of(0, 20, Sort.by("nombre"));
+		Page<Album> page = this.albumDAO.findAll(pageable);
 		return page.getContent();
 	}
 

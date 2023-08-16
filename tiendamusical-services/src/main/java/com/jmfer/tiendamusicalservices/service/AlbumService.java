@@ -6,6 +6,7 @@ package com.jmfer.tiendamusicalservices.service;
 import java.util.List;
 
 import com.jmfer.tiendamusicalentities.dto.AlbumTopTenDTO;
+import com.jmfer.tiendamusicalentities.entities.Album;
 
 /**
  * @author jmfer
@@ -18,4 +19,10 @@ public interface AlbumService {
 	 * @return
 	 */
 	List<AlbumTopTenDTO> consultarAlbumsTopTen();
+	
+	/**
+	 * Metodo que permite consultar el listado de albums
+	 * @return
+	 */
+	List<Album> consultarAlbums();
 }

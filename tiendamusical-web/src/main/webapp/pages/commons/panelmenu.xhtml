@@ -15,7 +15,8 @@
 				action="#{paginaController.redireccionarPagina('/pages/cliente/miscompras.xhtml')}"
 				immediate="true" rendered="#{sessionBean.persona.rol.idRol == 4}" />
 			<p:menuitem value="Albums" icon="pi pi-volume-up"
-				rendered="#{sessionBean.persona.rol.idRol == 3}"></p:menuitem>
+				action="#{paginaController.redireccionarPagina('/pages/admin/albums.xhtml')}"
+				immediate="true" rendered="#{sessionBean.persona.rol.idRol == 3}"></p:menuitem>
 			<p:menuitem value="Artistas" icon="pi pi-users"
 				rendered="#{sessionBean.persona.rol.idRol == 3}"></p:menuitem>
 			<p:menuitem value="Perfiles" icon="pi pi-lock"
